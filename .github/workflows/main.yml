@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "Building the app..."
           # Create the target directory if it doesn't exist
-          mkdir -p /home/ubuntu/app_build
+          sudo mkdir -p /home/ubuntu/app_build
           # Copy all files into the target directory
           cp -r ./* /home/ubuntu/app_build
 
