@@ -29,9 +29,10 @@ jobs:
       # Step 4: Build the application (if needed)
       - name: Build app
         run: |
-          # This step can include the commands to build your app (e.g., copying files, compiling, etc.)
           echo "Building the app..."
-          # Example: build your app or prepare the folder to upload to S3
+          # Create the target directory if it doesn't exist
+          mkdir -p /home/ubuntu/app_build
+          # Copy all files into the target directory
           cp -r ./* /home/ubuntu/app_build
 
       # Step 5: Upload to S3
