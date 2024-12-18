@@ -1,0 +1,56 @@
+name: Deploy App to S3
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+  push:
+    branches:
+      - main  # Trigger this workflow on a push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up AWS credentials
+    - name: Set up AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1  # Replace with your desired region
+
+    # Install dependencies (assuming a Node.js app, modify as needed for other environments)
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ruby python3-pip wget # Modify based on your needs
+        # Install dependencies or build the application if needed
+        ./install_dependencies.sh  # Custom script to install your app dependencies
+
+    # Start the server (you can modify this command based on your app)
+    - name: Start the server
+      run: |
+        ./start_server.sh  # Replace with your server start command if needed
+
+    # Build the application (you can replace with your build commands)
+    - name: Build the app
+      run: |
+        # Assuming this is a static site, copy files to a build folder
+        mkdir -p build
+        cp -r * build/  # Modify based on how your app should be built
+        cp appspec.yml build/
+        cp index.html build/
+
+    # Stop the server (if applicable)
+    - name: Stop the server
+      run: |
+        ./stop_server.sh  # Replace with your server stop command if needed
+
+    # Sync the build directory to S3
+    - name: Deploy to S3
+      run: |
+        aws s3 sync ./build s3://testcode01/ --delete
