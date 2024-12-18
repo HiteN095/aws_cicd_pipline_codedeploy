@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Start the httpd service (Apache)
-sudo systemctl start httpd.service
+# Update package index
+sudo apt-get update
 
-# Optional: Enable the service to start on boot (if needed)
-sudo systemctl enable httpd.service
+# Install Apache2 (httpd equivalent on Ubuntu)
+sudo apt-get install -y apache2
 
-# Check the status of the service (optional)
-sudo systemctl status httpd.service
+# Start the Apache2 service
+sudo systemctl start apache2.service
+
+# Enable Apache2 to start on boot (optional)
+sudo systemctl enable apache2.service
+
+# Check the status of the Apache2 service
+sudo systemctl status apache2.service
