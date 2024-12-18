@@ -1,2 +1,10 @@
 #!/bin/bash
-service httpd start
+
+# Start the httpd service (Apache)
+sudo systemctl start httpd.service
+
+# Optional: Enable the service to start on boot (if needed)
+sudo systemctl enable httpd.service
+
+# Check the status of the service (optional)
+sudo systemctl status httpd.service
